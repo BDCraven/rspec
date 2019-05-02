@@ -6,7 +6,7 @@ module ExpenseTracker
   class API < Sinatra::Base
     def initialize(ledger: Ledger.new)
       @ledger = ledger
-      super()
+      super() # rest of initialization from Sinatra
     end
 
     post '/expenses' do
@@ -22,7 +22,8 @@ module ExpenseTracker
     end
 
     get '/expenses/:date' do
-      JSON.generate([])
+      results = @ledger.expenses_on(params[:date])
+      JSON.generate(results)
     end
   end
 end
